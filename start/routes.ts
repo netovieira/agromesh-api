@@ -46,7 +46,12 @@ Route.get('gateway/:id/devices', 'DeviceController.index')
 Route.post('gateway/:id/device/:code', 'DeviceController.update')
 Route.post('gateway/:id/device/:code/:port', 'DevicePortController.update')
 
-Route.resource('well', 'WellController').apiOnly()
+Route.group(() => {
+  Route.resource('well', 'WellController').apiOnly()
+}).middleware('auth')
+
+
+
 
 // Route.get('mock', async () => {
   
