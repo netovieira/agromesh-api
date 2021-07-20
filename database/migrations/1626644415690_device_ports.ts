@@ -1,4 +1,3 @@
-import { beforeSave } from '@ioc:Adonis/Lucid/Orm'
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class DevicePorts extends BaseSchema {
@@ -16,6 +15,8 @@ export default class DevicePorts extends BaseSchema {
       table.string('port').notNullable()
       table.boolean('state').notNullable()
       table.boolean('manual').notNullable()
+
+      table.unique(['device_id', 'port'])
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

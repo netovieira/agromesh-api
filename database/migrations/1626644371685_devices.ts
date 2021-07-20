@@ -16,6 +16,8 @@ export default class Devices extends BaseSchema {
       table.boolean('rebooted').notNullable()
       table.json('info').nullable()
 
+      table.unique(['gateway_id', 'code'])
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

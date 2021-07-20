@@ -37,7 +37,15 @@ export default class DeviceController {
   public async edit ({}: HttpContextContract) {
   }
 
-  public async update ({}: HttpContextContract) {
+  public async update ({request}: HttpContextContract) {
+    const id : string   = request.params().id
+    const code : string = request.params().code
+
+
+    const device = await Device.query().where('code', code).where('gateway_id', id).firstOrFail()
+
+    device.fill(Object.assign(device.$attributes, request.body()))
+    return await device.save()
   }
 
   public async destroy ({}: HttpContextContract) {

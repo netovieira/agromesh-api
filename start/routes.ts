@@ -19,10 +19,10 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import Device from 'App/Models/Device'
-import DevicePort from 'App/Models/DevicePort'
-import Gateway from 'App/Models/Gateway'
-import User from 'App/Models/User'
+// import Device from 'App/Models/Device'
+// import DevicePort from 'App/Models/DevicePort'
+// import Gateway from 'App/Models/Gateway'
+// import User from 'App/Models/User'
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -43,64 +43,68 @@ Route.post('logout', async ({ auth }) => {
 
 
 Route.get('gateway/:id/devices', 'DeviceController.index')
+Route.post('gateway/:id/device/:code', 'DeviceController.update')
+Route.post('gateway/:id/device/:code/:port', 'DevicePortController.update')
 
-Route.get('mock', async () => {
+Route.resource('well', 'WellController').apiOnly()
+
+// Route.get('mock', async () => {
   
-  const user = new User()
+//   const user = new User()
 
-  user.name = 'Anthero Vieira Neto'
-  user.email = 'anthero@vieira.com'
-  user.password = '123456'
-  await user.save()
+//   user.name = 'Anthero Vieira Neto'
+//   user.email = 'anthero@vieira.com'
+//   user.password = '123456'
+//   await user.save()
 
-  const gateway = new Gateway()
+//   const gateway = new Gateway()
 
-  gateway.userId = user.id
-  gateway.name = 'gw1'
-  await gateway.save()
+//   gateway.userId = user.id
+//   gateway.name = 'gw1'
+//   await gateway.save()
 
-  let device = new Device()
+//   let device = new Device()
   
-  device.code = 'aa'
-  device.rebooted = false
-  device.gatewayId = gateway.id
-  await device.save()
+//   device.code = 'aa'
+//   device.rebooted = false
+//   device.gatewayId = gateway.id
+//   await device.save()
 
-  let devicePort = new DevicePort()
-  devicePort.port = '2'
-  devicePort.state = true
-  devicePort.manual = false
-  device.gatewayId = gateway.id
-  await devicePort.save()
+//   let devicePort = new DevicePort()
+//   devicePort.port = '2'
+//   devicePort.state = true
+//   devicePort.manual = false
+//   device.gatewayId = gateway.id
+//   await devicePort.save()
 
-  devicePort = new DevicePort()
-  devicePort.port = '4'
-  devicePort.state = true
-  devicePort.manual = false
-  devicePort.deviceId = device.id
-  await devicePort.save()
+//   devicePort = new DevicePort()
+//   devicePort.port = '4'
+//   devicePort.state = true
+//   devicePort.manual = false
+//   devicePort.deviceId = device.id
+//   await devicePort.save()
 
-  device = new Device()
+//   device = new Device()
   
-  device.code = 'ab'
-  device.rebooted = false
-  device.gatewayId = gateway.id
-  await device.save()
+//   device.code = 'ab'
+//   device.rebooted = false
+//   device.gatewayId = gateway.id
+//   await device.save()
 
-  devicePort = new DevicePort()
-  devicePort.port = '2'
-  devicePort.state = true
-  devicePort.manual = false
-  devicePort.deviceId = device.id 
-  await devicePort.save()
+//   devicePort = new DevicePort()
+//   devicePort.port = '2'
+//   devicePort.state = true
+//   devicePort.manual = false
+//   devicePort.deviceId = device.id 
+//   await devicePort.save()
   
-  devicePort = new DevicePort()
-  devicePort.port = '4'
-  devicePort.state = true
-  devicePort.manual = false
-  devicePort.deviceId = device.id
-  await devicePort.save()
+//   devicePort = new DevicePort()
+//   devicePort.port = '4'
+//   devicePort.state = true
+//   devicePort.manual = false
+//   devicePort.deviceId = device.id
+//   await devicePort.save()
 
-  return gateway
+//   return gateway
 
-})
+// })
