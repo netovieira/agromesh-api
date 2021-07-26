@@ -29,14 +29,14 @@ Route.get('/', async () => {
 })
 
 
-Route.post('login', async ({ auth, request }) => {
+Route.post('auth/login', async ({ auth, request }) => {
   const email = request.input('email')
   const password = request.input('password')
 
   return await auth.use('api').attempt(email, password)
 })
 
-Route.post('logout', async ({ auth }) => {
+Route.post('auth/logout', async ({ auth }) => {
   await auth.use('api').logout()
   return { success: true }
 })
@@ -54,7 +54,7 @@ Route.group(() => {
 
 
 // Route.get('mock', async () => {
-  
+
 //   const user = new User()
 
 //   user.name = 'Anthero Vieira Neto'
@@ -69,7 +69,7 @@ Route.group(() => {
 //   await gateway.save()
 
 //   let device = new Device()
-  
+
 //   device.code = 'aa'
 //   device.rebooted = false
 //   device.gatewayId = gateway.id
@@ -90,7 +90,7 @@ Route.group(() => {
 //   await devicePort.save()
 
 //   device = new Device()
-  
+
 //   device.code = 'ab'
 //   device.rebooted = false
 //   device.gatewayId = gateway.id
@@ -100,9 +100,9 @@ Route.group(() => {
 //   devicePort.port = '2'
 //   devicePort.state = true
 //   devicePort.manual = false
-//   devicePort.deviceId = device.id 
+//   devicePort.deviceId = device.id
 //   await devicePort.save()
-  
+
 //   devicePort = new DevicePort()
 //   devicePort.port = '4'
 //   devicePort.state = true

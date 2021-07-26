@@ -5,21 +5,22 @@
   "scripts": {
     "build": "node ace build --production",
     "start": "node server.js",
-    "dev": "node ace serve --watch"
+    "dev": "node ace serve --watch",
+    "deploy": "cp .env.production .env && npm install && npm run build && cp .env build/.env && node ace migration:run --force && cd build && npm ci --production && node server.js"
   },
   "devDependencies": {
-    "@adonisjs/assembler": "^5.3.2",
+    "@adonisjs/assembler": "^5.3.5",
     "adonis-preset-ts": "^2.1.0",
-    "pino-pretty": "^5.1.1",
-    "typescript": "^4.2.4",
+    "pino-pretty": "^5.1.2",
+    "typescript": "^4.3.5",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"
   },
   "dependencies": {
     "@adonisjs/auth": "^8.0.7",
-    "@adonisjs/core": "^5.1.9",
+    "@adonisjs/core": "^5.1.11",
     "@adonisjs/lucid": "^15.0.3",
-    "@adonisjs/repl": "^3.1.4",
+    "@adonisjs/repl": "^3.1.5",
     "luxon": "^2.0.1",
     "phc-argon2": "^1.1.2",
     "phc-bcrypt": "^1.0.7",

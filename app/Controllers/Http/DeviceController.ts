@@ -8,6 +8,7 @@ export default class DeviceController {
 
     const devices = await Device.query().where('gateway_id', id).preload('devicePorts')
 
+    // @ts-ignore
     return devices.flatMap((device) => {
       return {
           [device.code]: {
@@ -22,7 +23,7 @@ export default class DeviceController {
           }
         }
     }).values()
-    
+
   }
 
   public async create ({}: HttpContextContract) {

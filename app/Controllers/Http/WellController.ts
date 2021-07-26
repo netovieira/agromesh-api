@@ -1,13 +1,10 @@
-import { AuthContract } from '@ioc:Adonis/Addons/Auth';
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import User from 'App/Models/User';
 import Well from 'App/Models/Well';
 
-export default class WellsController {
+export default class WellController {
 
   public async index ({auth}: HttpContextContract) {
-    const user: User = auth.user?
-    return await Well.query().where('user_id', user.id)
+    return await Well.query().where('user_id', auth.user?.id || -1)
   }
 
   public async create ({}: HttpContextContract) {
