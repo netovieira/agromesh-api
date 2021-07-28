@@ -6,7 +6,7 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "dev": "node ace serve --watch",
-    "deploy": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force && npm ci --production && node server.js",
+    "deploy": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force",
     "start-prod": "cp .env build/.env && cd build && npm ci --production && node server.js"
   },
   "devDependencies": {
