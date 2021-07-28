@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import Device from './Device'
+import {BaseModel, BelongsTo, belongsTo, column} from '@ioc:Adonis/Lucid/Orm'
+import Device from "App/Models/Device";
 
-export default class DevicePort extends BaseModel {
+export default class DeviceLog extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -10,13 +10,7 @@ export default class DevicePort extends BaseModel {
   public deviceId: number
 
   @column()
-  public port: number
-
-  @column()
-  public state: boolean
-
-  @column()
-  public manual: boolean
+  public rebooted: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

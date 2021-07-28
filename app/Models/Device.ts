@@ -17,7 +17,10 @@ export default class Device extends BaseModel {
   public info: object
 
   @column()
-  public rebooted: boolean
+  public rebooted: string
+
+  @column()
+  public rssi: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -1,23 +1,18 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
-export default class Devices extends BaseSchema {
-  protected tableName = 'devices'
+export default class GatewayLogs extends BaseSchema {
+  protected tableName = 'gateway_logs'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').primary()
+      table.increments('id')
 
       table.integer('gateway_id')
-      .unsigned()
-      .references('gateways.id')
-      .onDelete('CASCADE')
+           .unsigned()
+           .references('gateways.id')
+           .onDelete('SET NULL')
 
-      table.string('code').notNullable()
       table.string('rebooted').notNullable()
-      table.json('info').nullable()
-
-      table.unique(['gateway_id', 'code'])
-
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

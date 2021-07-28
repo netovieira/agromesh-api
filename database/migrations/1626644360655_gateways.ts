@@ -10,11 +10,13 @@ export default class Gateways extends BaseSchema {
       table.integer('user_id')
       .unsigned()
       .references('users.id')
-      .onDelete('CASCADE') 
+      .onDelete('CASCADE')
 
+      table.string('code').notNullable()
       table.string('name').notNullable()
+      table.string('rebooted').notNullable()
       table.timestamp('last_fetch').nullable()
-      
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

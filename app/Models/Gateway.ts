@@ -8,10 +8,16 @@ export default class Gateway extends BaseModel {
   public id: number
 
   @column()
+  public code: string
+
+  @column()
   public name: string
 
   @column()
   public userId: number
+
+  @column()
+  public rebooted: string
 
   @column.dateTime({ autoCreate: true })
   public lastFetch: DateTime

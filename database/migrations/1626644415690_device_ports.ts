@@ -6,13 +6,13 @@ export default class DevicePorts extends BaseSchema {
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      
+
       table.integer('device_id')
       .unsigned()
       .references('devices.id')
       .onDelete('CASCADE')
 
-      table.string('port').notNullable()
+      table.integer('port').notNullable()
       table.boolean('state').notNullable()
       table.boolean('manual').notNullable()
 

@@ -10,7 +10,7 @@ export default class DevicePortLog extends BaseModel {
   public devicePortId: number
 
   @column()
-  public port: string
+  public port: number
 
   @column()
   public state: boolean
