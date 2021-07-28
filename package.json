@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "deploy": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force",
-    "start-prod": "cp .env build/.env && cd build && npm ci --production && node server.js"
+    "start-prod": "cd build && npm ci --production && node server.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.5",
