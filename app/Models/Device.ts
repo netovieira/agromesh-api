@@ -11,6 +11,12 @@ export default class Device extends BaseModel {
   public gatewayId: number
 
   @column()
+  public name: string
+
+  @column()
+  public type: string
+
+  @column()
   public code: string
 
   @column()

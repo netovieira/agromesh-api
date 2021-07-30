@@ -7,20 +7,6 @@ import DeviceLog from "App/Models/DeviceLog";
 import RssiDeviceLog from "App/Models/RssiDeviceLog";
 
 export default class DevicePortsController {
-  public async index ({}: HttpContextContract) {
-  }
-
-  public async create ({}: HttpContextContract) {
-  }
-
-  public async store ({}: HttpContextContract) {
-  }
-
-  public async show ({}: HttpContextContract) {
-  }
-
-  public async edit ({}: HttpContextContract) {
-  }
 
   public async update ({request}: HttpContextContract) {
 
@@ -108,6 +94,15 @@ export default class DevicePortsController {
     };
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async store ({request}: HttpContextContract) {
+    const devicePort = new DevicePort()
+    devicePort.fill(Object.assign(devicePort.$attributes, request.body()));
+    return await devicePort.save()
+  }
+
+  public async destroy ({request}: HttpContextContract) {
+    const id : string   = request.params().id
+    const devicePort = await DevicePort.findOrFail(id)
+    return await devicePort.delete()
   }
 }

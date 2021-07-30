@@ -29,36 +29,63 @@ Route.get('/', async () => {
 })
 
 
-Route.post('auth/login', async ({ auth, request }) => {
-  const email = request.input('email')
-  const password = request.input('password')
-
-  return await auth.use('api').attempt(email, password)
-})
-
-Route.post('auth/logout', async ({ auth }) => {
-  await auth.use('api').logout()
-  return { success: true }
-})
-
-
-Route.get('iot/:id/devices', 'DeviceController.index')
-// Route.post('iot/:id/device/:code', 'DeviceController.update')
-Route.post('iot/:id/device/:code/:port', 'DevicePortController.update')
-
+//FOR AUTHENTICATION
 Route.group(() => {
-  Route.resource('well', 'WellController').apiOnly()
-}).middleware('auth')
+  Route.post('login', async ({ auth, request }) => {
+    console.log({
+      request: {
+        url: 'POST ' + request.url(),
+        params: request.params(),
+        body: request.body(),
+      }
+    });
+    const email = request.input('email')
+    const password = request.input('password')
+    return await auth.use('api').attempt(email, password)
+  })
+
+  Route.post('logout', async ({ auth }) => {
+    await auth.use('api').logout()
+    return { success: true }
+  })
+
+  Route.group(() => {
+    Route.get('user', async ({ auth }) => {
+      return auth.use('api').user;
+    })
+
+    Route.post('refresh', async ({ auth }) => {
+      return auth.use('api').revoke();
+    })
+  }).middleware('auth')
+
+}).prefix('auth')
+
+//FOR GATEWAY
+Route.group(() => {
+  Route.get(':id/devices', 'DeviceController.index')
+  Route.post(':id/device/:code/:port', 'DevicePortController.update')
+}).prefix('iot')
+
+//FOR APPLICATION
+Route.group(() => {
+  Route.get('control', 'ControlController.index')
+  Route.put('control/:id', 'ControlController.update')
+  Route.resource('gateway', 'GatewayController').apiOnly()
+  Route.resource('device', 'DeviceController').apiOnly().except(['index'])
+  Route.resource('device-port', 'DevicePortController').apiOnly().except(['index', 'update'])
+})
+  .middleware('auth')
+  .prefix('api')
 
 
-
-
+// WORKAROUND SEEDER
 Route.get('seed', async () => {
 
   const user = new User()
 
-  user.name = 'Anthero Vieira Neto'
-  user.email = 'anthero@vieira.com'
+  user.name = 'Paulo Nahes'
+  user.email = 'paulo@nahes.com'
   user.password = '123456'
   await user.save()
 
@@ -73,11 +100,29 @@ Route.get('seed', async () => {
   let device = new Device()
 
   device.code = 'ab'
+  device.name = 'Poço 1'
+  device.type = 'Poço de irrigação'
   device.rebooted = "false"
   device.gatewayId = gateway.id
   await device.save()
 
   let devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'ac'
+  device.name = 'Poço 2'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
   devicePort.port = 2
   devicePort.state = true
   devicePort.manual = false

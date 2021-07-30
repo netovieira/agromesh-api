@@ -14,6 +14,7 @@ export default class DeviceController {
       url: 'GET ' + request.url(),
       params: request.params(),
       body: request.body(),
+      // headers: request.headers()
     };
 
     console.log(debug)
@@ -46,28 +47,22 @@ export default class DeviceController {
     return ret
   }
 
-  public async update ({request}: HttpContextContract) {
-    const id : string   = request.params().id
-    const code : string = request.params().code
-
-    const device = await Device.query().where('code', code).where('gateway_id', id).firstOrFail()
-
-    // const ports = request.body().ports;
-
+  public async store ({request}: HttpContextContract) {
+    const device = new Device()
     device.fill(Object.assign(device.$attributes, request.body()));
-    await device.save()
-
-    // for (var port in ports) {
-    //   const devicePort = await DevicePort.find(port.id);
-    // }
-
-    await device.save()
-    await device.load('devicePorts')
-    await device.refresh()
-
-    return await device.refresh()
+    return await device.save()
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async update ({request}: HttpContextContract) {
+    const id : string   = request.params().id
+    const device = await Device.findOrFail(id)
+    device.fill(Object.assign(device.$attributes, request.body()));
+    return await device.save()
+  }
+
+  public async destroy ({request}: HttpContextContract) {
+    const id : string   = request.params().id
+    const device = await Device.findOrFail(id)
+    return await device.delete()
   }
 }

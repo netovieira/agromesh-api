@@ -7,6 +7,7 @@
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "deploy": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force",
+    "deploy-dev": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force && cp database/db.sqlite3 ../database/db.sqlite3",
     "start-prod": "cd build && npm ci --production && node server.js"
   },
   "devDependencies": {

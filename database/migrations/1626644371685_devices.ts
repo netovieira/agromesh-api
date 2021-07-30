@@ -13,6 +13,9 @@ export default class Devices extends BaseSchema {
       .onDelete('CASCADE')
 
       table.string('code').notNullable()
+      table.string('name').notNullable()
+      table.string('type').notNullable()
+
       table.string('rebooted').notNullable()
       table.json('info').nullable()
 
