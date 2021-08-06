@@ -25,7 +25,9 @@ import Gateway from 'App/Models/Gateway'
 import User from 'App/Models/User'
 
 Route.get('/', async () => {
-  return { agro: 'mesh' }
+  return {
+    agro: 'mesh',
+  }
 })
 
 
@@ -71,6 +73,11 @@ Route.group(() => {
 Route.group(() => {
   Route.get('control', 'ControlController.index')
   Route.put('control/:id', 'ControlController.update')
+  Route.get('control/check-updates/:time', 'ControlController.checkIfUpdate')
+
+  Route.resource('task', 'TaskController').apiOnly()
+  Route.get('task/check-updates/:time', 'TaskController.checkIfUpdate')
+
   Route.resource('gateway', 'GatewayController').apiOnly()
   Route.resource('device', 'DeviceController').apiOnly().except(['index'])
   Route.resource('device-port', 'DevicePortController').apiOnly().except(['index', 'update'])
@@ -78,14 +85,13 @@ Route.group(() => {
   .middleware('auth')
   .prefix('api')
 
-
 // WORKAROUND SEEDER
 Route.get('seed', async () => {
 
   const user = new User()
 
   user.name = 'Paulo Nahes'
-  user.email = 'paulo@nahes.com'
+  user.email = 'phnahes@gmail.com'
   user.password = '123456'
   await user.save()
 
@@ -99,7 +105,7 @@ Route.get('seed', async () => {
 
   let device = new Device()
 
-  device.code = 'ab'
+  device.code = 'aa'
   device.name = 'Poço 1'
   device.type = 'Poço de irrigação'
   device.rebooted = "false"
@@ -115,7 +121,7 @@ Route.get('seed', async () => {
 
   device = new Device()
 
-  device.code = 'ac'
+  device.code = 'ab'
   device.name = 'Poço 2'
   device.type = 'Poço de irrigação'
   device.rebooted = "false"

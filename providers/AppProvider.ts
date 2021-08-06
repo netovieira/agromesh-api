@@ -13,7 +13,12 @@ export default class AppProvider {
   }
 
   public async ready () {
-    // App is ready
+    if (this.app.environment === 'web') {
+      // await import('../start/socket')
+
+      const Scheduler = this.app.container.use('Adonis/Addons/Scheduler')
+      Scheduler.run()
+    }
   }
 
   public async shutdown () {

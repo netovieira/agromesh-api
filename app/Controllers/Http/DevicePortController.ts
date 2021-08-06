@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Device from 'App/Models/Device'
 import DevicePort from 'App/Models/DevicePort'
-import Gateway from "App/Models/Gateway";
 import DevicePortLog from "App/Models/DevicePortLog";
 import DeviceLog from "App/Models/DeviceLog";
 import RssiDeviceLog from "App/Models/RssiDeviceLog";
@@ -18,28 +17,29 @@ export default class DevicePortsController {
       }
     });
 
-
     const debug = {
       logs: {},
       warnings: [],
     };
 
     const rebootedValues = ['true', 'false', 'force'];
+    const stateValues = [0, 1];
 
     const id : string   = request.params().id
     const code : string = request.params().code
     const port : string = request.params().port
 
-    const gateway = await Gateway.query().where('code', id).firstOrFail()
-    const device = await Device.query().where('code', code).where('gateway_id', gateway.id).firstOrFail()
+    const device = await Device.query().where('code', code).preload('gateway', (gwQuery) => {
+      gwQuery.where('code', id)
+    }).firstOrFail()
 
     if(rebootedValues.indexOf(request.body().rebooted) >= 0)
       device.rebooted = request.body().rebooted;
     else {
-      debug.warnings = [
+      debug.warnings.push(
         // @ts-ignore
         'Wrong value of field "rebooted"! Value:"'+request.body().rebooted+'" not in: ('+rebootedValues.join(',')+')'
-      ];
+      );
     }
 
     if(device.rssi != request.body().rssi) {
@@ -57,7 +57,16 @@ export default class DevicePortsController {
     await device.save();
 
     const devicePort = await DevicePort.query().where('device_id', device.id).where('port', port).firstOrFail()
-    devicePort.state = request.body().state;
+
+    if(stateValues.indexOf(request.body().state) >= 0)
+      devicePort.state = request.body().state;
+    else {
+      debug.warnings.push(
+        // @ts-ignore
+        'Wrong value of field "state"! Value:"'+request.body().state+'" not in: ('+stateValues.join(',')+')'
+      );
+    }
+
     if(request.body().manual)
       devicePort.manual = request.body().manual;
     await devicePort.save()

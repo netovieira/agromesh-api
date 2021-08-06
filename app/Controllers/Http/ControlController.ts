@@ -1,8 +1,9 @@
 
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Gateway from "App/Models/Gateway";
 import Device from "App/Models/Device";
 import DevicePort from "App/Models/DevicePort";
+import {DateTime, Duration, Settings} from "luxon";
+import {ModelQueryBuilder} from "@adonisjs/lucid/build/src/Orm/QueryBuilder";
 
 export default class ControlController {
 
@@ -17,6 +18,35 @@ export default class ControlController {
     }
   }
 
+  public async checkIfUpdate ({auth, request}: HttpContextContract) {
+
+    const debug = {
+      url: 'GET ' + request.url(),
+      params: request.params(),
+      body: request.body()
+    };
+
+    console.log(debug)
+
+    const time = Number(request.params().time)
+    const dateTime = DateTime.fromMillis(time);
+
+
+    const devices = await Device.query().whereHas('gateway', (gwQuery: ModelQueryBuilder) => {
+      gwQuery.where('user_id', auth.user?.id || -1)
+    }).preload('devicePorts')
+
+    let _changes = 0;
+      devices.forEach((_device: Device) => {
+      _device.devicePorts.forEach((_devicePort: DevicePort) => {
+        if(_devicePort.updatedAt.diff(dateTime) > Duration.fromMillis(0)) _changes++
+      })
+    })
+
+    console.log({response: {datetime: dateTime.toString(), time: Settings.now(), changes: _changes}})
+    return {time: Settings.now(), changes: _changes}
+  }
+
   public async index ({auth, request}: HttpContextContract) {
 
     const debug = {
@@ -28,8 +58,9 @@ export default class ControlController {
 
     console.log(debug)
 
-    const gateway = await Gateway.query().where('user_id', auth.user?.id || -1).firstOrFail()
-    const devices = await Device.query().where('gateway_id', gateway.id).preload('devicePorts')
+    const devices = await Device.query().preload('gateway', (gwQuery) => {
+      gwQuery.where('user_id', auth.user?.id || -1)
+    }).preload('devicePorts')
 
     const ret = [];
 
@@ -41,7 +72,13 @@ export default class ControlController {
       })
     })
 
-    return ret
+    return ret.sort((a, b) => {
+      // @ts-ignore
+      if(a.name < b.name) { return -1; }
+      // @ts-ignore
+      if(a.name > b.name) { return 1; }
+      return 0;
+    })
   }
 
   public async update ({request}: HttpContextContract) {

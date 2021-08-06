@@ -2,7 +2,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Device from 'App/Models/Device'
 import Gateway from "App/Models/Gateway";
-import {DateTime} from "luxon";
+import {DateTime, Settings} from "luxon";
 
 export default class DeviceController {
   public async index ({request}: HttpContextContract) {
@@ -14,6 +14,7 @@ export default class DeviceController {
       url: 'GET ' + request.url(),
       params: request.params(),
       body: request.body(),
+      now: Settings.now()
       // headers: request.headers()
     };
 
