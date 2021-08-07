@@ -66,6 +66,7 @@ Route.group(() => {
 //FOR GATEWAY
 Route.group(() => {
   Route.get(':id/devices', 'DeviceController.index')
+  Route.post(':id', 'GatewayController.update')
   Route.post(':id/device/:code/:port', 'DevicePortController.update')
 }).prefix('iot')
 

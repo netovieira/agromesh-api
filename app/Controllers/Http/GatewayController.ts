@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Gateway from "App/Models/Gateway";
+import GatewayLog from "../../Models/GatewayLog";
 
 export default class GatewayController {
   public async index ({auth}: HttpContextContract) {
@@ -14,7 +15,15 @@ export default class GatewayController {
 
   public async update ({request}: HttpContextContract) {
     const id : string   = request.params().id
-    const gateway = await Gateway.findOrFail(id)
+    const gateway = await Gateway.query().where('code', id).firstOrFail()
+    const log = new GatewayLog();
+    log.gatewayId = gateway.id;
+
+    if(request.params().rebooted)
+      log.rebooted = request.params().rebooted;
+
+    await log.save();
+
     gateway.fill(Object.assign(gateway.$attributes, request.body()));
     return await gateway.save()
   }
