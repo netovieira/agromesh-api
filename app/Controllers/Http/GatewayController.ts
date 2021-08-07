@@ -14,6 +14,15 @@ export default class GatewayController {
   }
 
   public async update ({request}: HttpContextContract) {
+
+    console.log({
+      request: {
+        url: 'POST ' + request.url(),
+        params: request.params(),
+        body: request.body(),
+      }
+    });
+
     const id : string   = request.params().id
     const gateway = await Gateway.query().where('code', id).firstOrFail()
     const log = new GatewayLog();

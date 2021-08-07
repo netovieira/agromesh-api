@@ -9,13 +9,13 @@ export default class DevicePortsController {
 
   public async update ({request}: HttpContextContract) {
 
-    console.log({
-      request: {
-        url: 'POST ' + request.url(),
-        params: request.params(),
-        body: request.body(),
-      }
-    });
+    // console.log({
+    //   request: {
+    //     url: 'POST ' + request.url(),
+    //     params: request.params(),
+    //     body: request.body(),
+    //   }
+    // });
 
     const debug = {
       logs: {},
@@ -95,7 +95,7 @@ export default class DevicePortsController {
     }
 
 
-    console.log({debug})
+    // console.log({debug})
     return {
       data: devicePort,
       warnings: debug.warnings,
