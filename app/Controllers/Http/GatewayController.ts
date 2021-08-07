@@ -28,8 +28,8 @@ export default class GatewayController {
     const log = new GatewayLog();
     log.gatewayId = gateway.id;
 
-    // if(request.params().rebooted)
-    log.rebooted = request.params().rebooted;
+    if(request.body().rebooted)
+    log.rebooted = request.body().rebooted;
     await log.save();
 
     gateway.fill(Object.assign(gateway.$attributes, request.body()));
