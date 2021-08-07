@@ -10,15 +10,15 @@ export default class DeviceController {
     const gateway = await Gateway.query().where('code', code).firstOrFail()
     const devices = await Device.query().where('gateway_id', gateway.id).preload('devicePorts')
 
-    const debug = {
-      url: 'GET ' + request.url(),
-      params: request.params(),
-      body: request.body(),
-      now: Settings.now()
+    // const debug = {
+    //   url: 'GET ' + request.url(),
+    //   params: request.params(),
+    //   body: request.body(),
+    //   now: Settings.now()
       // headers: request.headers()
-    };
+    // };
 
-    console.log(debug)
+    // console.log(debug)
 
     gateway.lastFetch = DateTime.now();
     gateway.save()
