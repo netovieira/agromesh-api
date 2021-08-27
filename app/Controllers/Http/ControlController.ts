@@ -15,6 +15,9 @@ export default class ControlController {
       name: device.name,
       port: devicePort.port,
       state: devicePort.state,
+      rssi: device.rssi,
+      node: device.code,
+      updated_at: devicePort.updatedAt.toFormat('dd/MM/yyyy HH:mm'),
     }
   }
 
@@ -53,32 +56,35 @@ export default class ControlController {
       url: 'GET ' + request.url(),
       params: request.params(),
       body: request.body(),
+      // user: auth.user
       // headers: request.headers()
     };
 
     console.log(debug)
 
-    const devices = await Device.query().preload('gateway', (gwQuery) => {
-      gwQuery.where('user_id', auth.user?.id || -1)
-    }).preload('devicePorts')
+    const devices = await Device.query().whereHas('gateway', (gwQuery) => {
+      gwQuery.where('user_id', auth.user?.id!)
+    }).preload('devicePorts').orderBy('name')
 
     const ret = [];
 
     devices.forEach((device : Device) => {
       device.devicePorts.forEach((dPort: DevicePort) => {
         const item = ControlController.prepareControl(device, dPort);
+        console.log({item: item})
         // @ts-ignore
         ret.push(item)
       })
     })
 
-    return ret.sort((a, b) => {
-      // @ts-ignore
-      if(a.name < b.name) { return -1; }
-      // @ts-ignore
-      if(a.name > b.name) { return 1; }
-      return 0;
-    })
+    return ret
+    // return ret.sort((a, b) => {
+    //   // @ts-ignore
+    //   if(a.name < b.name) { return -1; }
+    //   // @ts-ignore
+    //   if(a.name > b.name) { return 1; }
+    //   return 0;
+    // })
   }
 
   public async update ({request}: HttpContextContract) {
@@ -90,6 +96,10 @@ export default class ControlController {
         body: request.body(),
       }
     });
+
+    for(var i = 0; i < 150000; i++){
+      console.log(i);
+    }
 
     const devicePort = await DevicePort.query().where('id', request.params().id).preload('device').firstOrFail()
     devicePort.state = request.body().state;

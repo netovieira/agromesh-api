@@ -87,26 +87,26 @@ Route.group(() => {
   .prefix('api')
 
 // WORKAROUND SEEDER
-Route.get('seed', async () => {
+Route.get('test-seed', async () => {
 
   const user = new User()
 
-  user.name = 'Paulo Nahes'
-  user.email = 'phnahes@gmail.com'
+  user.name = 'Testes'
+  user.email = 'testes@agromesh.com.br'
   user.password = '123456'
   await user.save()
 
   const gateway = new Gateway()
 
   gateway.userId = user.id
-  gateway.name = 'gw1'
-  gateway.code = '579d54'
+  gateway.name = 'test-gw'
+  gateway.code = 'GWTEST01'
   gateway.rebooted = 'false'
   await gateway.save()
 
   let device = new Device()
 
-  device.code = 'aa'
+  device.code = 'a1'
   device.name = 'Poço 1'
   device.type = 'Poço de irrigação'
   device.rebooted = "false"
@@ -122,8 +122,136 @@ Route.get('seed', async () => {
 
   device = new Device()
 
-  device.code = 'ab'
+  device.code = 'a2'
   device.name = 'Poço 2'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a3'
+  device.name = 'Poço 3'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a4'
+  device.name = 'Poço 4'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a5'
+  device.name = 'Poço 5'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a6'
+  device.name = 'Poço 6'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a7'
+  device.name = 'Poço 7'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a8'
+  device.name = 'Poço 8'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'a9'
+  device.name = 'Poço 9'
+  device.type = 'Poço de irrigação'
+  device.rebooted = "false"
+  device.gatewayId = gateway.id
+  await device.save()
+
+  devicePort = new DevicePort()
+  devicePort.port = 2
+  devicePort.state = true
+  devicePort.manual = false
+  devicePort.deviceId = device.id
+  await devicePort.save()
+
+  device = new Device()
+
+  device.code = 'aa'
+  device.name = 'Poço 10'
   device.type = 'Poço de irrigação'
   device.rebooted = "false"
   device.gatewayId = gateway.id
