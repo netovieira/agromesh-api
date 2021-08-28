@@ -3,8 +3,10 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import {
   column,
   beforeSave,
-  BaseModel,
+  BaseModel, hasMany, HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
+import MobileDevice from "App/Models/MobileDevice";
+import Gateway from "App/Models/Gateway";
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -34,4 +36,10 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasMany(() => Gateway)
+  public gateways: HasMany<typeof Gateway>
+
+  @hasMany(() => MobileDevice)
+  public mobileDevices: HasMany<typeof MobileDevice>
 }

@@ -36,7 +36,7 @@ const databaseConfig: DatabaseConfig = {
     sqlite: {
       client: 'sqlite',
       connection: {
-        filename: '/data/agromesh/agromesh-api/db.sqlite3'
+        filename: '/home/anthero/Projetos/agromesh-api/db.sqlite3'
       },
       migrations: {
         naturalSort: true,

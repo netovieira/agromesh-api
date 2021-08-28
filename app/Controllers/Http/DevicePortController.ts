@@ -4,6 +4,8 @@ import DevicePort from 'App/Models/DevicePort'
 import DevicePortLog from "App/Models/DevicePortLog";
 import DeviceLog from "App/Models/DeviceLog";
 import RssiDeviceLog from "App/Models/RssiDeviceLog";
+import Fcm from "App/Services/Fcm";
+import User from "App/Models/User";
 
 export default class DevicePortsController {
 
@@ -29,17 +31,23 @@ export default class DevicePortsController {
     const code : string = request.params().code
     const port : string = request.params().port
 
-    const device = await Device.query().where('code', code).preload('gateway', (gwQuery) => {
+    const user = await User.query().whereHas('gateways', (gwQuery) => {
       gwQuery.where('code', id)
     }).firstOrFail()
 
-    if(rebootedValues.indexOf(request.body().rebooted) >= 0)
-      device.rebooted = request.body().rebooted;
-    else {
-      debug.warnings.push(
-        // @ts-ignore
-        'Wrong value of field "rebooted"! Value:"'+request.body().rebooted+'" not in: ('+rebootedValues.join(',')+')'
-      );
+    const device = await Device.query().where('code', code).whereHas('gateway', (gwQuery) => {
+      gwQuery.where('code', id)
+    }).firstOrFail()
+
+    if(request.body().rebooted !== null) {
+      if (rebootedValues.indexOf(request.body().rebooted) >= 0)
+        device.rebooted = request.body().rebooted;
+      else {
+        debug.warnings.push(
+          // @ts-ignore
+          'Wrong value of field "rebooted"! Value:"' + request.body().rebooted + '" not in: (' + rebootedValues.join(',') + ')'
+        );
+      }
     }
 
     if(device.rssi != request.body().rssi) {
@@ -52,6 +60,24 @@ export default class DevicePortsController {
 
       // @ts-ignore
       debug.logs.rssi = rssiLog.toObject()
+    }
+
+    if(device.health != request.body().health) {
+      device.health = request.body().health;
+
+      if(device.health == 'false')
+        Fcm.send( 'Cadê o Poço 1? 🤔', 'Perdemos a comunicação com o Poço 1! 😰', user);
+
+      if(device.health == 'true')
+        Fcm.send( 'Ufa! Encontramos o Poço 1 🙏', 'A comunicação com o Poço 1 foi restabelecida! 🤩', user);
+
+      const healthLog = new DeviceLog()
+      healthLog.health = device.health
+      healthLog.deviceId = device.id
+      await healthLog.save()
+
+      // @ts-ignore
+      debug.logs.health = healthLog.toObject()
     }
 
     await device.save();
@@ -67,9 +93,17 @@ export default class DevicePortsController {
       );
     }
 
-    if(request.body().manual)
+    if(request.body().manual) {
+
+      if(devicePort.state)
+        Fcm.send( 'Alguem ligou o Poço 1 👀', 'O Poço 1 foi ligado manualmente!', user);
+      else
+        Fcm.send( 'Alguem desligou o Poço 1 👀', 'O Poço 1 foi desligado manualmente!', user);
+
       devicePort.manual = request.body().manual;
-    await devicePort.save()
+      await devicePort.save()
+
+    }
 
 
     if(request.body().manual) {

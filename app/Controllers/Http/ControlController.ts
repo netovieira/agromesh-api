@@ -4,6 +4,8 @@ import Device from "App/Models/Device";
 import DevicePort from "App/Models/DevicePort";
 import {DateTime, Duration, Settings} from "luxon";
 import {ModelQueryBuilder} from "@adonisjs/lucid/build/src/Orm/QueryBuilder";
+import Fcm from "App/Services/Fcm";
+import User from "App/Models/User";
 
 export default class ControlController {
 
@@ -17,6 +19,7 @@ export default class ControlController {
       state: devicePort.state,
       rssi: device.rssi,
       node: device.code,
+      heath: device.health,
       updated_at: devicePort.updatedAt.toFormat('dd/MM/yyyy HH:mm'),
     }
   }
@@ -55,39 +58,29 @@ export default class ControlController {
     const debug = {
       url: 'GET ' + request.url(),
       params: request.params(),
-      body: request.body(),
-      // user: auth.user
-      // headers: request.headers()
+      body: request.body()
     };
 
     console.log(debug)
 
     const devices = await Device.query().whereHas('gateway', (gwQuery) => {
       gwQuery.where('user_id', auth.user?.id!)
-    }).preload('devicePorts').orderBy('name')
+    }).preload('devicePorts').orderBy('type').orderBy('name')
 
     const ret = [];
 
     devices.forEach((device : Device) => {
       device.devicePorts.forEach((dPort: DevicePort) => {
         const item = ControlController.prepareControl(device, dPort);
-        console.log({item: item})
         // @ts-ignore
         ret.push(item)
       })
     })
 
     return ret
-    // return ret.sort((a, b) => {
-    //   // @ts-ignore
-    //   if(a.name < b.name) { return -1; }
-    //   // @ts-ignore
-    //   if(a.name > b.name) { return 1; }
-    //   return 0;
-    // })
   }
 
-  public async update ({request}: HttpContextContract) {
+  public async update ({request, auth}: HttpContextContract) {
 
     console.log({
       request: {
@@ -97,9 +90,8 @@ export default class ControlController {
       }
     });
 
-    for(var i = 0; i < 150000; i++){
-      console.log(i);
-    }
+    const user = auth.user || new User();
+    Fcm.send('teste', 'teste mensagem', user);
 
     const devicePort = await DevicePort.query().where('id', request.params().id).preload('device').firstOrFail()
     devicePort.state = request.body().state;

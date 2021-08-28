@@ -25,6 +25,8 @@
     "@adonisjs/repl": "^3.1.5",
     "@types/socket.io": "^3.0.2",
     "adonis5-scheduler": "^2.0.2",
+    "axios": "^0.21.1",
+    "firebase-admin": "^9.11.1",
     "luxon": "^2.0.1",
     "phc-argon2": "^1.1.2",
     "phc-bcrypt": "^1.0.7",

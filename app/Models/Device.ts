@@ -26,6 +26,9 @@ export default class Device extends BaseModel {
   public rebooted: string
 
   @column()
+  public health: string
+
+  @column()
   public rssi: string
 
   @column.dateTime({ autoCreate: true })
