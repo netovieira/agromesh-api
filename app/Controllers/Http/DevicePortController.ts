@@ -66,10 +66,10 @@ export default class DevicePortsController {
       device.health = request.body().health;
 
       if(device.health == 'false')
-        Fcm.send( 'Cadê o Poço 1? 🤔', 'Perdemos a comunicação com o Poço 1! 😰', user);
+        Fcm.send( 'Cadê o '+device.name+'? 🤔', 'Perdemos a comunicação com o '+device.name+'! 😰', user);
 
       if(device.health == 'true')
-        Fcm.send( 'Ufa! Encontramos o Poço 1 🙏', 'A comunicação com o Poço 1 foi restabelecida! 🤩', user);
+        Fcm.send( 'Ufa! Encontramos o '+device.name+' 🙏', 'A comunicação com o '+device.name+' foi restabelecida! 🤩', user);
 
       const healthLog = new DeviceLog()
       healthLog.health = device.health
@@ -96,9 +96,9 @@ export default class DevicePortsController {
     if(request.body().manual) {
 
       if(devicePort.state)
-        Fcm.send( 'Alguem ligou o Poço 1 👀', 'O Poço 1 foi ligado manualmente!', user);
+        Fcm.send( 'Alguem ligou o '+device.name+' 👀', 'O '+device.name+' foi ligado manualmente!', user);
       else
-        Fcm.send( 'Alguem desligou o Poço 1 👀', 'O Poço 1 foi desligado manualmente!', user);
+        Fcm.send( 'Alguem desligou o '+device.name+' 👀', 'O '+device.name+' foi desligado manualmente!', user);
 
       devicePort.manual = request.body().manual;
       await devicePort.save()
