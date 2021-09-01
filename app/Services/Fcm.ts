@@ -42,6 +42,9 @@ import MobileDevice from "App/Models/MobileDevice";
 export default class Fcm {
 
   public static async send(title: String, message: String, user: User) {
+
+    if(!Env.get('SEND_PUSH')) return;
+
     await user.load('mobileDevices')
     user.mobileDevices.forEach((mobileDevice: MobileDevice) => {
       const token = mobileDevice.token;

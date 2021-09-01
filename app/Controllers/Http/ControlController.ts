@@ -4,8 +4,6 @@ import Device from "App/Models/Device";
 import DevicePort from "App/Models/DevicePort";
 import {DateTime, Duration, Settings} from "luxon";
 import {ModelQueryBuilder} from "@adonisjs/lucid/build/src/Orm/QueryBuilder";
-import Fcm from "App/Services/Fcm";
-import User from "App/Models/User";
 
 export default class ControlController {
 
@@ -19,7 +17,7 @@ export default class ControlController {
       state: devicePort.state,
       rssi: device.rssi,
       node: device.code,
-      heath: device.health,
+      health: device.health,
       updated_at: devicePort.updatedAt.toFormat('dd/MM/yyyy HH:mm'),
     }
   }
@@ -80,7 +78,7 @@ export default class ControlController {
     return ret
   }
 
-  public async update ({request, auth}: HttpContextContract) {
+  public async update ({request}: HttpContextContract) {
 
     console.log({
       request: {
@@ -89,9 +87,6 @@ export default class ControlController {
         body: request.body(),
       }
     });
-
-    const user = auth.user || new User();
-    Fcm.send('teste', 'teste mensagem', user);
 
     const devicePort = await DevicePort.query().where('id', request.params().id).preload('device').firstOrFail()
     devicePort.state = request.body().state;

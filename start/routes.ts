@@ -23,7 +23,6 @@ import Device from 'App/Models/Device'
 import DevicePort from 'App/Models/DevicePort'
 import Gateway from 'App/Models/Gateway'
 import User from 'App/Models/User'
-import Fcm from "App/Services/Fcm";
 
 Route.get('/', async () => {
   return {
@@ -89,12 +88,12 @@ Route.group(() => {
   .prefix('api')
 
 // WORKAROUND SEEDER
-Route.get('send-push', async () => {
-  Fcm.send( 'Cadê o Poço 1? 🤔', 'Perdemos a comunicação com o Poço 1! 😰', await User.findOrFail(2));
-  Fcm.send( 'Ufa! Encontramos o Poço 1 🙏', 'A comunicação com o Poço 1 foi restabelecida! 🤩', await User.findOrFail(2));
-  Fcm.send( 'Alguem ligou o Poço 1 👀', 'O Poço 1 foi ligado manualmente!', await User.findOrFail(2));
-  Fcm.send( 'Alguem desligou o Poço 1 👀', 'O Poço 1 foi desligado manualmente!', await User.findOrFail(2));
-})
+// Route.get('send-push', async () => {
+//   Fcm.send( 'Cadê o Poço 1? 🤔', 'Perdemos a comunicação com o Poço 1! 😰', await User.findOrFail(2));
+//   Fcm.send( 'Ufa! Encontramos o Poço 1 🙏', 'A comunicação com o Poço 1 foi restabelecida! 🤩', await User.findOrFail(2));
+//   Fcm.send( 'Alguem ligou o Poço 1 👀', 'O Poço 1 foi ligado manualmente!', await User.findOrFail(2));
+//   Fcm.send( 'Alguem desligou o Poço 1 👀', 'O Poço 1 foi desligado manualmente!', await User.findOrFail(2));
+// })
 
 Route.get('test-seed', async () => {
 

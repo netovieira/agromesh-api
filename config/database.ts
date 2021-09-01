@@ -36,7 +36,7 @@ const databaseConfig: DatabaseConfig = {
     sqlite: {
       client: 'sqlite',
       connection: {
-        filename: '/home/anthero/Projetos/agromesh-api/db.sqlite3'
+        filename: Env.get('SQLITE_PATH'),
       },
       migrations: {
         naturalSort: true,
@@ -45,6 +45,17 @@ const databaseConfig: DatabaseConfig = {
       healthCheck: false,
       debug: false,
     },
+
+    mysql: {
+      client: 'mysql',
+      connection: {
+        host: Env.get('DB_HOST'),
+        port: Env.get('DB_PORT'),
+        user: Env.get('DB_USERNAME'),
+        password: Env.get('DB_PASSWORD'),
+        database: Env.get('DB_DATABASE'),
+      }
+    }
 
   }
 }

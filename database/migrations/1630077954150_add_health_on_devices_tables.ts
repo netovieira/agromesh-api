@@ -5,13 +5,13 @@ export default class AddHealthOnDevicesTables extends BaseSchema {
 
   public async up () {
     this.schema.alterTable(this.tableName, (table) => {
-      table.string('heath').after('rebooted')
+      table.string('health').after('rebooted')
     })
   }
 
   public async down () {
     this.schema.alterTable(this.tableName, (table) => {
-      table.dropColumn('heath')
+      table.dropColumn('health')
     })
   }
 }
