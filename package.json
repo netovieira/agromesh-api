@@ -6,9 +6,7 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "dev": "node ace serve --watch",
-    "deploy": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force",
-    "deploy-dev": "cp .env.production .env && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force && cp database/db.sqlite3 ../database/db.sqlite3",
-    "start-prod": "cd build && npm ci --production && node server.js"
+    "deploy": "npm install && npm run build && cd build && node ace migration:run --force"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.5",
@@ -28,6 +26,7 @@
     "axios": "^0.21.1",
     "firebase-admin": "^9.11.1",
     "luxon": "^2.0.1",
+    "mysql": "^2.18.1",
     "phc-argon2": "^1.1.2",
     "phc-bcrypt": "^1.0.7",
     "proxy-addr": "^2.0.7",
