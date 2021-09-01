@@ -6,7 +6,7 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "dev": "node ace serve --watch",
-    "deploy": "npm install && npm run build && cd build && node ace migration:run --force"
+    "deploy": "npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.5",
