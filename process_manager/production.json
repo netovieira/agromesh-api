@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "combine_logs": true,
+      "cwd": "/data/agromesh/agromesh-api/",
+      "error_file": "/var/log/agromesh/errors.log",
+      "exec_mode": "fork",
+      "instances": 5,
+      "merge_logs": true,
+      "name": "agromesh-api",
+      "out_file": "/var/log/agromesh/agromesh.log",
+      "pid_file": "/var/run/agromesh.pid",
+      "script": "build/server.js",
+      "env": {
+        "APP_KEY": "7YzzWvhjuboCgqMUAl0xdmeTauxlRlWo",
+        "DB_CONNECTION": "mysql",
+        "DB_DATABASE": "agromesh",
+        "DB_HOST": "agromesh.cmkoqrfaylyc.us-east-1.rds.amazonaws.com",
+        "DB_PASSWORD": "5170043ae01f2c8fe535372f9a0d3233",
+        "DB_PORT": "3306",
+        "DB_USERNAME": "root",
+        "ENV_SILENT": "true",
+        "FIREBASE_KEY": "AAAACdYX1DA:APA91bE6jIWieU1sf60Kui9MVmH5jVwBcbHveHDp0cFfPk5L4maeKZazfINuAvhdftOMGMXIpEMXiSzHDcOPa8qY78oN_pT62-p0oGF-WkaDkh1I-NUSI1SmkhqhTjYgj3FXwG-WiG53",
+        "HOST": "0.0.0.0",
+        "NODE_ENV": "production",
+        "PORT": "3000",
+        "SEND_PUSH": true
+      }
+    }
+  ]
+}
+

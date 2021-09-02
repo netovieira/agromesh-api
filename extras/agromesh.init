@@ -24,15 +24,15 @@
 # service nodeapp <command (start|stop|etc)>
 
 NAME=agromesh-api                        # Unique name for the application
-SOUREC_DIR=/data/agromesh/agromesh-api   # Location of the application source
+SOURCE_DIR=/data/agromesh/agromesh-api   # Location of the application source
 COMMAND=node                             # Command to run
-SOURCE_NAME=forever/production.json      # Name os the applcation entry point script
+SOURCE_NAME=process_manager/production.json      # Name os the applcation entry point script
 USER=root                                # User for process running
 NODE_ENVIROMENT=production               # Node environment
 
 pidfile=/var/run/$NAME.pid
 logfile=/var/log/$NAME.log
-forever=forever
+pm2=pm2
 
 start() {
     export NODE_ENV=$NODE_ENVIROMENT
@@ -44,27 +44,33 @@ start() {
     touch $pidfile
     chown $USER $pidfile
 
-    #sudo -H -u $USER $forever start --uid "$NAME" --pidFile $pidfile -l $logfile -a -m 5 --sourceDir $SOUREC_DIR -c $COMMAND $SOURCE_NAME
-    sudo -H -u $USER $forever start $SOUREC_DIR/$SOURCE_NAME
+    #sudo -H -u $USER $pm2 start --uid "$NAME" --pidFile $pidfile -l $logfile -a -m 5 --sourceDir $SOURCE_DIR -c $COMMAND $SOURCE_NAME
+    sudo -H -u $USER $pm2 start $SOURCE_DIR/$SOURCE_NAME
 
     RETVAL=$?
 }
 
 restart() {
     echo -n "Restarting $NAME node instance : "
-    sudo -H -u $USER $forever restart $NAME
+    sudo -H -u $USER $pm2 restart $NAME
     RETVAL=$?
 }
 
 status() {
     echo "Status for $NAME:"
-    sudo -H -u $USER $forever list
+    sudo -H -u $USER $pm2 list
+    RETVAL=$?
+}
+
+monitor() {
+    echo "Monitor for $NAME:"
+    sudo -H -u $USER $pm2 monit
     RETVAL=$?
 }
 
 stop() {
     echo -n "Shutting down $NAME node instance : "
-    sudo -H -u $USER $forever stop $NAME
+    sudo -H -u $USER $pm2 stop $NAME
 }
 
 case "$1" in
@@ -74,6 +80,9 @@ case "$1" in
     stop)
         stop
         ;;
+    monitor)
+        monitor
+        ;;
     status)
         status
         ;;
@@ -81,7 +90,7 @@ case "$1" in
         restart
         ;;
     *)
-        echo "Usage:  {start|stop|status|restart}"
+        echo "Usage:  {start|stop|status|monitor|restart}"
         exit 1
         ;;
 esac
