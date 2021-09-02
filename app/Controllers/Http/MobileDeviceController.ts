@@ -19,10 +19,13 @@ export default class MobileDeviceController {
     if(md === null) {
       md = new MobileDevice();
       md.userId = auth.user?.id || -1;
-      md.code = code;
     }
 
     md.fill(Object.assign(md.$attributes, request.body()));
+
+    md.code = request.body().name;
+    md.name = request.body().code;
+
     return await md.save()
   }
 
