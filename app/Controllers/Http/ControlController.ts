@@ -15,7 +15,7 @@ export default class ControlController {
       name: device.name,
       port: devicePort.port,
       state: devicePort.state,
-      rssi: device.rssi,
+      rssi: device.rssi + ' dB',
       node: device.code,
       health: device.health,
       updated_at: devicePort.updatedAt.toFormat('dd/MM/yyyy HH:mm'),

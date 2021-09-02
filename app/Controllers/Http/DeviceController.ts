@@ -35,6 +35,7 @@ export default class DeviceController {
       devices.forEach((device) => {
         ret.nodes[device.code] = {
             rebooted: device.rebooted,
+            health: device.health,
             ports: device.devicePorts.map((dPort) => {
               return {
                 port: dPort.port,
