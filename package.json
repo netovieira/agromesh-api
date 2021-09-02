@@ -6,7 +6,7 @@
     "build": "node ace build --production",
     "start": "node server.js",
     "dev": "node ace serve --watch",
-    "deploy": "npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force"
+    "deploy": "cd /data/agromesh/agromesh-api && git pull && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force && /etc/init.d/agromesh restart"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^5.3.5",
