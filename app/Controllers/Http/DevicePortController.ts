@@ -11,14 +11,14 @@ export default class DevicePortsController {
 
   public async update ({request}: HttpContextContract) {
 
-//  // Log IOT
-//    console.log({
-//      request: {
-//         url: 'POST ' + request.url(),
-//        params: request.params(),
-//        body: request.body(),
-//      }
-//    });
+  // Log IOT
+    console.log({
+      request: {
+         url: 'POST ' + request.url(),
+        params: request.params(),
+        body: request.body(),
+      }
+    });
 
     const debug = {
       logs: {},
