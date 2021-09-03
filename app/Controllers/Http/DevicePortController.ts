@@ -96,9 +96,9 @@ export default class DevicePortsController {
     if(request.body().manual) {
 
       if(devicePort.state)
-        Fcm.send( device.name, 'O '+device.name+' foi ligado manualmente!', user);
+        Fcm.send( device.name, 'O dispositivo foi ligado manualmente!', user);
       else
-        Fcm.send( device.name, 'O '+device.name+' foi desligado manualmente!', user);
+        Fcm.send( device.name, 'O dispositivo foi desligado manualmente!', user);
 
       devicePort.manual = request.body().manual;
       await devicePort.save()
