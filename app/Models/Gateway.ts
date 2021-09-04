@@ -19,6 +19,9 @@ export default class Gateway extends BaseModel {
   @column()
   public rebooted: string
 
+  @column()
+  public fw_version: string
+
   @column.dateTime({ autoCreate: true })
   public lastFetch: DateTime
 
