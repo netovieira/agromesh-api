@@ -27,7 +27,8 @@ export default class DeviceController {
       gw: {
         code: gateway.code,
         rebooted: gateway.rebooted,
-        updated: gateway.updatedAt
+        updated: gateway.updatedAt,
+        fw_version: gateway.fw_version
       },
       nodes: {},
     };
