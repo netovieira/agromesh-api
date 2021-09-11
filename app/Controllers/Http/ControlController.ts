@@ -88,8 +88,9 @@ export default class ControlController {
       }
     });
 
-    const devicePort = await DevicePort.query().where('id', request.params().id).preload('device').firstOrFail()
-    devicePort.state = request.body().state;
+    const devicePort  = await DevicePort.query().where('id', request.params().id).preload('device').firstOrFail()
+    devicePort.state  = request.body().state;
+    devicePort.manual = false;
     await devicePort.save()
     return ControlController.prepareControl(devicePort.device, devicePort);
   }
