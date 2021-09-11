@@ -63,7 +63,6 @@ export default class DevicePortsController {
       debug.logs.rssi = rssiLog.toObject()
     }
 
-/*
     if(device.health != request.body().health) {
       device.health = request.body().health;
 
@@ -80,7 +79,6 @@ export default class DevicePortsController {
       // @ts-ignore
       debug.logs.health = healthLog.toObject()
     }
-*/
     await device.save();
 
     const devicePort = await DevicePort.query().where('device_id', device.id).where('port', port).firstOrFail()
