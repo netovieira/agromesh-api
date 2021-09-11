@@ -23,7 +23,6 @@ import Device from 'App/Models/Device'
 import DevicePort from 'App/Models/DevicePort'
 import Gateway from 'App/Models/Gateway'
 import User from 'App/Models/User'
-import MobileDevice from "App/Models/MobileDevice";
 
 Route.get('/', async () => {
   return {
@@ -48,7 +47,7 @@ Route.group(() => {
   })
 
   Route.post('logout', async ({ auth }) => {
-    await MobileDevice.query().where('user_id', auth.user?.id || -1).delete()
+
     await auth.use('api').logout()
     return { success: true }
   })
