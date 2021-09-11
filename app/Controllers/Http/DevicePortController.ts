@@ -66,10 +66,12 @@ export default class DevicePortsController {
     if(device.health != request.body().health) {
       device.health = request.body().health;
 
-//      if(device.health == 'false')
-//        Fcm.send( 'Cadê o '+device.name+'? 🤔', 'Perdemos a comunicação com o '+device.name+'! 😰', user);
-//      if(device.health == 'true')
-//        Fcm.send( 'Ufa! Encontramos o '+device.name+' 🙏', 'A comunicação com o '+device.name+' foi restabelecida! 🤩', user);
+/*
+      if(device.health == 'false')
+        Fcm.send( 'Cadê o '+device.name+'? 🤔', 'Perdemos a comunicação com o '+device.name+'! 😰', user);
+      if(device.health == 'true')
+        Fcm.send( 'Ufa! Encontramos o '+device.name+' 🙏', 'A comunicação com o '+device.name+' foi restabelecida! 🤩', user);
+*/
 
       const healthLog = new DeviceLog()
       healthLog.health = device.health
@@ -93,11 +95,13 @@ export default class DevicePortsController {
     }
 
     if(request.body().manual) {
-
+    
+/*
       if(devicePort.state)
         Fcm.send( device.name, 'O dispositivo foi ligado manualmente!', user);
       else
         Fcm.send( device.name, 'O dispositivo foi desligado manualmente!', user);
+*/
 
       devicePort.manual = request.body().manual;
       await devicePort.save()
