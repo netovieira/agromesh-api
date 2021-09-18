@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ace build --production  --ignore-ts-errors",
+    "build": "node ace build --production --ignore-ts-errors",
     "start": "node server.js",
     "dev": "node ace serve --watch",
     "deploy": "cd /data/agromesh/agromesh-api && git pull && npm install && npm run build && cp .env build/.env && cd build && node ace migration:run --force && /etc/init.d/agromesh restart"

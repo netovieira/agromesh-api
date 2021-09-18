@@ -25,7 +25,9 @@
         "NODE_ENV": "production",
         "PORT": "3000",
         "SEND_PUSH": true,
-        "HEALTH_TIMEOUT": 5
+        "HEALTH_TIMEOUT": 5,
+	"SEND_HEALTH_PUSH": true,
+        "SHOW_NO_SIGNAL": true
       }
     }
   ]
