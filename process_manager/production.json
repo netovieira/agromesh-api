@@ -24,7 +24,8 @@
         "HOST": "0.0.0.0",
         "NODE_ENV": "production",
         "PORT": "3000",
-        "SEND_PUSH": true
+        "SEND_PUSH": true,
+        "HEALTH_TIMEOUT": 5
       }
     }
   ]
