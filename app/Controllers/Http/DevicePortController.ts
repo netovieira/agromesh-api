@@ -11,10 +11,10 @@ export default class DevicePortsController {
 
   public async update ({request}: HttpContextContract) {
 
-  // Log IOT
+    // Log IOT
     console.log({
       request: {
-         url: 'POST ' + request.url(),
+        url: 'POST ' + request.url(),
         params: request.params(),
         body: request.body(),
       }
@@ -66,11 +66,6 @@ export default class DevicePortsController {
     if(device.health != request.body().health) {
       device.health = request.body().health;
 
-//      if(device.health == 'false')
-//        Fcm.send( 'Cadê o '+device.name+'? 🤔', 'Perdemos a comunicação com o '+device.name+'! 😰', user);
-//      if(device.health == 'true')
-//        Fcm.send( 'Ufa! Encontramos o '+device.name+' 🙏', 'A comunicação com o '+device.name+' foi restabelecida! 🤩', user);
-
       const healthLog = new DeviceLog()
       healthLog.health = device.health
       healthLog.deviceId = device.id
@@ -94,7 +89,7 @@ export default class DevicePortsController {
 
     if(request.body().manual) {
 
-    
+
 //      if(devicePort.state)
 //        Fcm.send( device.name, 'O dispositivo foi ligado manualmente!', user);
 //      else
@@ -125,7 +120,7 @@ export default class DevicePortsController {
       await dLog.save()
 
       // @ts-ignore
-      debug.logs.Device = dLog.toObject()
+      debug.logs.device = dLog.toObject()
     }
 
 
