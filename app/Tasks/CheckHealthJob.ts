@@ -1,5 +1,4 @@
 import { BaseTask } from 'adonis5-scheduler/build'
-import Task from "App/Models/Task";
 import {DateTime} from "luxon";
 import Fcm from "App/Services/Fcm";
 import DeviceLog from "App/Models/DeviceLog";
@@ -27,13 +26,13 @@ export default class CheckHealthJob extends BaseTask {
       .whereNotNull('health')
       .where('created_at', '<=', DateTime.now().minus({minutes: Env.get('HEALTH_TIMEOUT')}).toLocaleString(DateTime.TIME_24_SIMPLE))
       .whereRaw('created_at == updated_at')
-      .preload('Device');
+      .preload('device');
 
 
-    for (const log : DeviceLog of logs) {
+    for (const log of logs) {
 
-      await log.device.load('Gateway');
-      await log.device.gateway.load('User');
+      await log.device.load('gateway');
+      await log.device.gateway.load('user');
       const user = log.device.gateway.user;
 
       if (log.health == 'false')

@@ -4,8 +4,6 @@ import DevicePort from 'App/Models/DevicePort'
 import DevicePortLog from "App/Models/DevicePortLog";
 import DeviceLog from "App/Models/DeviceLog";
 import RssiDeviceLog from "App/Models/RssiDeviceLog";
-import Fcm from "App/Services/Fcm";
-import User from "App/Models/User";
 
 export default class DevicePortsController {
 
@@ -32,9 +30,9 @@ export default class DevicePortsController {
     const code : string = request.params().code
     const port : string = request.params().port
 
-    const user = await User.query().whereHas('gateways', (gwQuery) => {
-      gwQuery.where('code', id)
-    }).firstOrFail()
+    // const user = await User.query().whereHas('gateways', (gwQuery) => {
+    //   gwQuery.where('code', id)
+    // }).firstOrFail()
 
     const device = await Device.query().where('code', code).whereHas('gateway', (gwQuery) => {
       gwQuery.where('code', id)

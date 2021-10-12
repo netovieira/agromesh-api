@@ -24,7 +24,6 @@ import DevicePort from 'App/Models/DevicePort'
 import Gateway from 'App/Models/Gateway'
 import User from 'App/Models/User'
 import MobileDevice from "App/Models/MobileDevice";
-import {req} from "pino-std-serializers";
 
 Route.get('/', async () => {
   return {

@@ -1,39 +1,3 @@
-/*
-
-    public function send()
-    {
-        $params = [
-            "notification" => $this->notification,
-            "data" => $this->data,
-            "to" => $this->target,
-            "priority" => "high",
-            "restricted_package_name" => ""
-        ];
-
-        $client = Http
-            ::withHeaders([
-                'Authorization' => 'key='.env('FIREBASE_KEY'),
-                'Content-Type' => 'application/json'
-            ])
-            ->post('https://fcm.googleapis.com/fcm/send', $params);
-
-        return $client->object();
-    }
-
-        public function withNotification($title, $body, $sound = 'default', $icon = 'notification_icon', $image = '')
-    {
-        $this->notification = [
-            "title" => $title,
-            "body"  => $body,
-            "sound" => $sound,
-            "icon"  => $icon,
-            "image" => $image,
-        ];
-
-        return $this;
-    }
- */
-
 import User from "App/Models/User";
 import axios from "axios";
 import Env from '@ioc:Adonis/Core/Env'
