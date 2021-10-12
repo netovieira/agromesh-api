@@ -25,7 +25,7 @@ export default class CheckHealthJob extends BaseTask {
     const logs = await DeviceLog.query()
       .whereNotNull('health')
       .where('created_at', '<=', DateTime.now().minus({minutes: Env.get('HEALTH_TIMEOUT')}).toLocaleString(DateTime.TIME_24_SIMPLE))
-      .whereRaw('created_at == updated_at')
+      .whereRaw('created_at = updated_at')
       .preload('device');
 
 
